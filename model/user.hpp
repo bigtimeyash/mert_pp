@@ -14,7 +14,8 @@ class User {
 
     public:
         User(string name, int scoreLimit);
-        void updateScore(int);
+        void updateScore(int newScore);
+        string getName();
         int getScore();
         int getScoreLimit();
 };

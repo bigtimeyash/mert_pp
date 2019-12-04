@@ -2,6 +2,14 @@
 
 User::User(string name, int scoreLimit) : name {name}, score {0}, scoreLimit {scoreLimit} {}
 
+void User::updateScore(int newScore) {
+    score = newScore;
+}
+
+string User::getName() {
+    return name;
+}
+
 int User::getScore() {
     return score;
 }
