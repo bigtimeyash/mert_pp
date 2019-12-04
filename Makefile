@@ -21,5 +21,5 @@ all: $(TARGETS)
 server: networking/server.cpp
 	$(CC) $(CFLAGS) -pthread $^ -o $@
 
-client: networking/client.cpp
+client: networking/client.cpp model/user.cpp
 	$(CC) $(CFLAGS) $^ -o $@

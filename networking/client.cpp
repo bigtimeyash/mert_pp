@@ -27,8 +27,10 @@ int main() {
             cin.setstate(ios_base::failbit);
         }
     }
+    cout << endl;
 
-    // User user = new User()
+    // Create User object
+    User *user = new User(name, limit);
 
     cout << "[1] Create new game" << endl;
     cout << "[2] Join existing game" << endl;
