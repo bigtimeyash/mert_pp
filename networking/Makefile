@@ -6,9 +6,7 @@ CFLAGS = -g -Wall -std=c++17
 
 # Define targets
 
-TARGETS = server
-
-.PHONY: scheduler
+TARGETS = server client
 
 # If no arguments are passed to make, it will attempt the '' target
 default: $(TARGETS)
@@ -22,3 +20,6 @@ all: $(TARGETS)
 
 server: server.cpp
 	$(CC) $(CFLAGS) -pthread $^ -o $@
+
+client: client.cpp
+	$(CC) $(CFLAGS) $^ -o $@
