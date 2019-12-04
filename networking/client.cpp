@@ -1,9 +1,17 @@
+#include "../cpp-httplib-master/httplib.h"
 #include <iostream>
 
 using namespace std;
 
 int main() {
+    httplib::Client cli("localhost", 1234);
+
     cout << "Welcome to drink++ !!!" << endl;
+    cout << endl;
+
+    cout << "What is your name?" << endl;
+    string name;
+    cin >> name;
     cout << endl;
 
     cout << "[1] Create new game" << endl;
@@ -22,5 +30,18 @@ int main() {
         }
     }
 
-    cout << "Input: " << input << endl;
+    // Create new game
+    if (input == 1) {
+        auto res = cli.Get("/create");
+        if (res && res->status == 200) {
+            cout << res->body << endl;
+        }
+        else {
+            cout << "Oh no! An error occured while attempting to create a new game." << endl;
+        }
+    }
+    // Join existing game
+    else if (input == 2) {
+
+    }
 }

@@ -24,6 +24,10 @@ int main(void) {
         res.set_content(val, "text/plain");
     });
 
+    svr.Get("/create", [](const Request& req, Response& res) {
+        res.set_content("Succesfully created a new game!", "text/plain");
+    });
+
     svr.Get(R"(/numbers/(\d+))", [&](const Request& req, Response& res) {
         auto numbers = req.matches[1];
         res.set_content(numbers, "text/plain");
