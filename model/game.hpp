@@ -3,18 +3,20 @@
 
 using namespace std;
 #include <vector>
+#include <map>
+#include <iostream>
 
 class Game
 {
 protected:
-    int GameID;
-    vector<int> users;
+    string hostName;
+    map<string, int> score;
 
 public:
-    Game();
+    Game(string);
 
-    void addPlayer(int);
-    void removePlayer(int);
+    void addPlayer(string);
+    bool removePlayer(string);
 };
 
 #endif
