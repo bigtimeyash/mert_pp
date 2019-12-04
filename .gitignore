@@ -1,3 +1,6 @@
 *.dSYM
 
 cpp-httplib-master/
+
+server
+client
