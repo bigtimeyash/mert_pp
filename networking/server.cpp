@@ -1,29 +1,12 @@
-// #include <httpserver.hpp>
-// #include "../libhttpserver-master/src/httpserver.hpp"
-
-// using namespace httpserver;
-
-// class hello_world_resource : public http_resource
-// {
-// public:
-//     const std::shared_ptr<http_response> render(const http_request &)
-//     {
-//         return std::shared_ptr<http_response>(new string_response("Hello, World!"));
-//     }
-// };
-
-// int main(int argc, char **argv)
-// {
-//     webserver ws = create_webserver(8080);
-
-//     hello_world_resource hwr;
-//     ws.register_resource("/hello", &hwr);
-//     ws.start(true);
-
-//     return 0;
-// }
+/*
+ *   https://github.com/yhirose/cpp-httplib
+ */
 
 #include "../cpp-httplib-master/httplib.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+static int num = 0;
 
 int main(void) {
     using namespace httplib;
@@ -32,6 +15,13 @@ int main(void) {
 
     svr.Get("/hi", [](const Request& req, Response& res) {
         res.set_content("Hello World!", "text/plain");
+    });
+
+    svr.Get("/num", [](const Request& req, Response& res) {
+        num++;
+        char *val = (char*)malloc(1024 * sizeof(char));
+        sprintf(val, "%d", num);
+        res.set_content(val, "text/plain");
     });
 
     svr.Get(R"(/numbers/(\d+))", [&](const Request& req, Response& res) {
