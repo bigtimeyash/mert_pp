@@ -4,7 +4,8 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     httplib::Client cli("localhost", 1234);
 
     cout << "Welcome to drink++ !!!" << endl;
@@ -18,19 +19,19 @@ int main() {
     cout << "How many shots until you blackout?" << endl;
     int limit;
     cin >> limit;
-    while (cin.fail()) {
+    while (cin.fail())
+    {
         cout << "Invalid input!" << endl;
         cin.clear();
         cin.ignore(256, '\n');
         cin >> limit;
-        if (limit < 1) {
+        if (limit < 1)
+        {
             cin.setstate(ios_base::failbit);
         }
     }
-    cout << endl;
 
-    // Create User object
-    User *user = new User(name, limit);
+    // User user = new User()
 
     cout << "[1] Create new game" << endl;
     cout << "[2] Join existing game" << endl;
@@ -38,28 +39,34 @@ int main() {
 
     int input = 0;
     cin >> input;
-    while (cin.fail()) {
+    while (cin.fail())
+    {
         cout << "Invalid input!" << endl;
         cin.clear();
-        cin.ignore(256,'\n');
+        cin.ignore(256, '\n');
         cin >> input;
-        if (input < 1 || input > 2) {
+        if (input < 1 || input > 2)
+        {
             cin.setstate(ios_base::failbit);
         }
     }
 
     // Create new game
-    if (input == 1) {
-        auto res = cli.Get("/create");
-        if (res && res->status == 200) {
+    if (input == 1)
+    {
+        auto res = cli.Post("/create", "asdf", "application/x-www-form-urlencoded");
+        if (res && res->status == 200)
+        {
             cout << res->body << endl;
         }
-        else {
+        else
+        {
             cout << "Oh no! An error occured while attempting to create a new game." << endl;
         }
     }
     // Join existing game
-    else if (input == 2) {
-
+    else if (input == 2)
+    {
     }
+    cout << "out of this test area";
 }
