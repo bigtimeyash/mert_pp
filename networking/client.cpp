@@ -1,4 +1,5 @@
 #include "../cpp-httplib-master/httplib.h"
+#include "../model/user.hpp"
 #include <iostream>
 
 using namespace std;
@@ -13,6 +14,21 @@ int main() {
     string name;
     cin >> name;
     cout << endl;
+
+    cout << "How many shots until you blackout?" << endl;
+    int limit;
+    cin >> limit;
+    while (cin.fail()) {
+        cout << "Invalid input!" << endl;
+        cin.clear();
+        cin.ignore(256, '\n');
+        cin >> limit;
+        if (limit < 1) {
+            cin.setstate(ios_base::failbit);
+        }
+    }
+
+    // User user = new User()
 
     cout << "[1] Create new game" << endl;
     cout << "[2] Join existing game" << endl;

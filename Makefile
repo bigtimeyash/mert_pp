@@ -18,8 +18,8 @@ all: $(TARGETS)
 # $< = name of first item in dependencies list
 # $@ = complete name of the target
 
-server: server.cpp
+server: networking/server.cpp
 	$(CC) $(CFLAGS) -pthread $^ -o $@
 
-client: client.cpp
+client: networking/client.cpp
 	$(CC) $(CFLAGS) $^ -o $@
