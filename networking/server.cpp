@@ -3,8 +3,10 @@
  */
 
 #include "../cpp-httplib-master/httplib.h"
+#include "../model/user.hpp"
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 static int num = 0;
 
