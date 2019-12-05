@@ -37,7 +37,7 @@ map<string, int> Game::getScores()
 
 bool Game::incrementScore(string player)
 {
-    if (users[player].getScoreLimit() > users[player].getScore())
+    if (users[player].getScoreLimit() > users[player].getScore() + 1)
     {
         users[player].updateScore(users[player].getScore() + 1);
         return true;

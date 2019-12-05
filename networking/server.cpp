@@ -85,8 +85,11 @@ int main(void)
         int gameInd = std::stoi(game);
         if (games[gameInd].incrementScore(name))
         {
-
             res.set_content("Incremented", "text/plain");
+        }
+        else
+        {
+            res.set_content("false", "text/plain");
         }
     });
 

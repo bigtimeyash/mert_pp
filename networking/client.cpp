@@ -86,8 +86,16 @@ void launchGame(int game, string name)
             auto res = cli.Post("/increaseScore", "name=" + name + "&game=" + to_string(game), "application/x-www-form-urlencoded");
             if (res && res->status == 200)
             {
-                cout << endl;
-                refresh(game);
+                if (res->body == "Incremented")
+                {
+                    cout << endl;
+                    refresh(game);
+                }
+                else
+                {
+                    cout << "OH NO!!! You have reached your limit! Call MERT!" << endl;
+                    break;
+                }
             }
             else
             {
