@@ -52,41 +52,52 @@ int getInt(int lbound = 0, int ubound = 255)
     }
     return limit;
 }
+void refresh(int game)
+{
+    auto res = cli.Post("/getScores", to_string(game), "application/x-www-form-urlencoded");
+    if (res && res->status == 200)
+    {
+        cout << "======================================================" << endl;
+        cout << res->body << endl;
+        cout << "======================================================" << endl;
+        cout << endl;
+    }
+    else
+    {
+        cout << "Oh no! An error occured while attempting to get scores." << endl;
+    }
+}
 
-void launchGame(int game, string name) 
+void launchGame(int game, string name)
 {
     string input;
-    while (1) {
+    while (1)
+    {
         cin >> input;
         // Log user out and quit game
-        if (input.compare("quit") == 0) {
+        if (input.compare("quit") == 0)
+        {
             cout << "QUIT" << endl;
             break;
         }
         // Increase player's score
-        else if (input.compare("++") == 0) {
+        else if (input.compare("++") == 0)
+        {
             auto res = cli.Post("/increaseScore", "name=" + name + "&game=" + to_string(game), "application/x-www-form-urlencoded");
-            if (res && res->status == 200) {
+            if (res && res->status == 200)
+            {
                 cout << endl;
+                refresh(game);
             }
-            else {
+            else
+            {
                 cout << "Oh no! An error occured while attempting to increment score." << endl;
             }
         }
         // Retrieve updated scores
-        else if (input.compare("refresh") == 0) {
-            auto res = cli.Post("/getScores", to_string(game), "application/x-www-form-urlencoded");
-            if (res && res->status == 200)
-            {
-                cout << "======================================================" << endl;
-                cout << res->body << endl;
-                cout << "======================================================" << endl;
-                cout << endl;
-            }
-            else
-            {
-                cout << "Oh no! An error occured while attempting to get scores." << endl;
-            }
+        else if (input.compare("refresh") == 0)
+        {
+            refresh(game);
         }
     }
 }

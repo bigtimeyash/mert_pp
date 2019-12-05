@@ -58,7 +58,8 @@ int main(void)
         Game g = games[gameInd];
 
         std::string scores;
-        for (auto e : g.getScores()) {
+        for (auto e : g.getScores())
+        {
             scores.append(e.first);
             scores.append(": ");
             scores.append(std::to_string(e.second));
