@@ -47,6 +47,16 @@ int main(void)
         res.set_content(out, "text/plain");
     });
 
+    svr.Post("/getScores", [](const Request &req, Response &res) {
+        // Get game
+        std::string game;
+        auto it = req.params.begin();
+        auto &x = *it;
+        game = x.first;
+
+        res.set_content("SCORES", "text/plain");
+    });
+
     svr.Get("/userList", [](const Request &req, Response &res) {
         std::string out;
         for (User u : users)

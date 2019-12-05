@@ -33,6 +33,7 @@ bool validateName(string name)
 
     return false;
 }
+
 int getInt(int lbound = 0, int ubound = 255)
 {
     int limit;
@@ -51,6 +52,39 @@ int getInt(int lbound = 0, int ubound = 255)
     }
     return limit;
 }
+
+void launchGame(int game) 
+{
+    string input;
+    while (1) {
+        cin >> input;
+        // Log user out and quit game
+        if (input.compare("quit") == 0) {
+            cout << "QUIT" << endl;
+            break;
+        }
+        // Increase player's score
+        else if (input.compare("++") == 0) {
+
+        }
+        // Retrieve updated scores
+        else if (input.compare("refresh") == 0) {
+            auto res = cli.Post("/getScores", to_string(game), "application/x-www-form-urlencoded");
+            if (res && res->status == 200)
+            {
+                cout << "======================================================" << endl;
+                cout << res->body << endl;
+                cout << "======================================================" << endl;
+                cout << endl;
+            }
+            else
+            {
+                cout << "Oh no! An error occured while attempting to get scores." << endl;
+            }
+        }
+    }
+}
+
 int main()
 {
     cout << "Welcome to drink++ !!!" << endl;
@@ -166,16 +200,22 @@ int main()
         }
         cout << "Type the index of the game you want to enter: ";
         int gameInd = getInt();
+        cout << endl;
 
         // join game on the server
         auto res = cli.Post("/joinGame", "name=" + name + "&gameInd=" + to_string(gameInd), "application/x-www-form-urlencoded");
         if (res && res->status == 200)
         {
-            cout << res->body << endl;
+            cout << "Succesfully joined game #" << gameInd << endl;
+            cout << "===============================================" << endl;
+            cout << "Instructions:\nquit - log out\nrefresh - get updated scores\n++ - increase your drink count" << endl;
+            cout << "===============================================" << endl;
+            cout << endl;
+            launchGame(gameInd);
         }
         else
         {
-            cout << "Oh no! An error occured while attempting to create a new user." << endl;
+            cout << "Oh no! An error occured while attempting to join the game." << endl;
         }
     }
 
