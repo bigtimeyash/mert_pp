@@ -250,6 +250,4 @@ int main()
             cout << "Oh no! An error occured while attempting to join the game." << endl;
         }
     }
-
-    cout << "Failed Successfully" << endl;
 }

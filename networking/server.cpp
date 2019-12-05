@@ -43,10 +43,16 @@ int main(void)
 
     svr.Get("/gameList", [](const Request &req, Response &res) {
         std::string out;
+        int i = 0;
         for (Game game : games)
         {
+            out.append("[");
+            out.append(std::to_string(i));
+            out.append("]");
+            out.append(" ");
             out.append(game.getName());
             out.append("\n");
+            i++;
         }
         res.set_content(out, "text/plain");
     });
