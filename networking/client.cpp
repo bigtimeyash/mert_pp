@@ -5,7 +5,7 @@
 
 using namespace std;
 
-httplib::Client cli("localhost", 1234);
+httplib::Client cli("54.80.73.49", 1234);
 
 bool validateName(string name)
 {
