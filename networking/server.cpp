@@ -10,6 +10,7 @@
 #include <vector>
 
 static int num = 0;
+static vector<string> names;
 
 std::string dump_headers(const httplib::Headers &headers)
 {
@@ -75,8 +76,6 @@ int main(void)
     Server svr;
 
     svr.Get("/hi", [](const Request &req, Response &res) {
-        char *out = "test";
-        printf("%s", out);
         res.set_content("Hello World!", "text/plain");
     });
 
@@ -88,19 +87,32 @@ int main(void)
     });
 
     svr.Post("/create", [](const Request &req, Response &res) {
-        string test;
-        for (auto it = req.params.begin(); it != req.params.end(); ++it)
-        {
-            const auto &x = *it;
-            test.append(x.first);
-            test.append("\n");
-            test.append(x.second);
-            //cout << x.first << "  " << x.second;
-        }
-        // printf("%s", "test");
+        // Retrieve name
+        string name;
+        auto it = req.params.begin();
+        auto &x = *it;
+        name = x.first;
 
-        // res.set_content("Succesfully created a new game!", "text/plain");
-        res.set_content(test, "text/plain");
+        // Add name to vector of names
+        names.push_back(name);
+        
+        res.set_content(name, "text/plain");
+    });
+
+    svr.Post("/isUnique", [](const Request &req, Response &res) {
+        // Retrieve name
+        string name;
+        auto it = req.params.begin();
+        auto &x = *it;
+        name = x.first;
+
+        // See if names vector contains name
+        string result = "true";
+        if (find(names.begin(), names.end(), name) != names.end()) {
+            result = "false";
+        }
+
+        res.set_content(result, "text/plain");
     });
 
     svr.Get(R"(/numbers/(\d+))", [&](const Request &req, Response &res) {
