@@ -9,11 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <map>
 
 static int num = 0;
 static std::vector<Game> games;
-static std::vector<std::string> names; // cached for easy dupe checking
-static std::vector<User> users;
+
+static std::map<std::string, User> users;
 
 int main(void)
 {
@@ -21,10 +22,13 @@ int main(void)
 
     Server svr;
 
-    games.push_back(Game("Default1"));
-    games.push_back(Game("Default2"));
-    names.push_back("defaultName1");
-    users.push_back(User("defaultName1", 0));
+    //dummy users and games for testing
+    User df1 = User("Default1", 1);
+    User df2 = User("Default2", 2);
+    games.push_back(Game(df1));
+    games.push_back(Game(df2));
+    users[df1.getName()] = df1;
+    users[df2.getName()] = df2;
 
     svr.Get("/hi", [](const Request &req, Response &res) {
         res.set_content("Hello World!", "text/plain");
@@ -79,16 +83,18 @@ int main(void)
         name = it->second;
 
         int gameInd = std::stoi(game);
-        games[gameInd].incrementScore(name);
+        if (games[gameInd].incrementScore(name))
+        {
 
-        res.set_content("Incremented", "text/plain");
+            res.set_content("Incremented", "text/plain");
+        }
     });
 
     svr.Get("/userList", [](const Request &req, Response &res) {
         std::string out;
-        for (User u : users)
+        for (auto u : users)
         {
-            out.append(u.getName());
+            out.append(u.second.getName());
             out.append("\n");
         }
         res.set_content(out, "text/plain");
@@ -104,9 +110,8 @@ int main(void)
         it++;
         name = it->second;
 
-        names.push_back(name);
         User a(name, std::stoi(limit));
-        users.push_back(a);
+        users[name] = a;
 
         res.set_content("|" + name + "|" + limit + "|", "text/plain");
     });
@@ -122,7 +127,7 @@ int main(void)
         it++;
         name = it->second;
 
-        games[gameInd].addPlayer(name);
+        games[gameInd].addPlayer(users[name]);
 
         res.set_content("|" + name + "|" + std::to_string(gameInd) + "|", "text/plain");
     });
@@ -133,8 +138,7 @@ int main(void)
         auto &x = *it;
         name = x.first;
 
-        Game g = Game(name);
-        g.addPlayer(name);
+        Game g = Game(users[name]);
         games.push_back(g);
 
         res.set_content(std::to_string(games.size() - 1), "text/plain");
@@ -147,9 +151,8 @@ int main(void)
         auto &x = *it;
         name = x.first;
 
-        // See if names vector contains name
         std::string result = "true";
-        if (find(names.begin(), names.end(), name) != names.end())
+        if (users.count(name))
         {
             result = "false";
         }

@@ -12,6 +12,7 @@ protected:
     int scoreLimit;
 
 public:
+    User();
     User(std::string name, int scoreLimit);
     void updateScore(int newScore);
     std::string getName();

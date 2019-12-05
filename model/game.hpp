@@ -4,20 +4,22 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include "user.hpp"
 
 class Game
 {
 protected:
     std::string hostName;
-    std::map<std::string, int> score;
+    std::map<std::string, User> users;
 
 public:
-    Game(std::string);
-    void addPlayer(std::string);
+    Game();
+    Game(User);
+    void addPlayer(User);
 
     std::string getName();
     std::map<std::string, int> getScores();
-    void incrementScore(std::string);
+    bool incrementScore(std::string);
     bool removePlayer(std::string);
 };
 
