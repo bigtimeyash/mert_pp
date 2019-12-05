@@ -44,6 +44,7 @@ bool Game::incrementScore(string player)
     }
     else
     {
+        users.erase(player);
         return false;
     }
 }

@@ -103,7 +103,7 @@ void launchGame(int game, string name)
             }
         }
         // Retrieve updated scores
-        else if (input.compare("refresh") == 0)
+        else if (input.compare("refresh") == 0 || input == "r")
         {
             refresh(game);
         }
