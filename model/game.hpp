@@ -16,6 +16,8 @@ public:
     void addPlayer(std::string);
 
     std::string getName();
+    std::map<std::string, int> getScores();
+    void incrementScore(std::string);
     bool removePlayer(std::string);
 };
 

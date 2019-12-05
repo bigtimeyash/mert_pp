@@ -18,6 +18,14 @@ string Game::getName()
     return Game::hostName;
 }
 
+map<string, int> Game::getScores() {
+    return Game::score;
+}
+
+void Game::incrementScore(string player) {
+    Game::score[player]++;
+}
+
 bool Game::removePlayer(string player)
 {
     if (Game::score.count(player) > 0)

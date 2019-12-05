@@ -54,7 +54,33 @@ int main(void)
         auto &x = *it;
         game = x.first;
 
-        res.set_content("SCORES", "text/plain");
+        int gameInd = std::stoi(game);
+        Game g = games[gameInd];
+
+        std::string scores;
+        for (auto e : g.getScores()) {
+            scores.append(e.first);
+            scores.append(": ");
+            scores.append(std::to_string(e.second));
+            scores.append("\n");
+        }
+
+        res.set_content(scores, "text/plain");
+    });
+
+    svr.Post("/increaseScore", [](const Request &req, Response &res) {
+        std::string game, name;
+
+        auto it = req.params.begin();
+
+        game = it->second;
+        it++;
+        name = it->second;
+
+        int gameInd = std::stoi(game);
+        games[gameInd].incrementScore(name);
+
+        res.set_content("Incremented", "text/plain");
     });
 
     svr.Get("/userList", [](const Request &req, Response &res) {
