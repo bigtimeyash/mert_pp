@@ -4,24 +4,57 @@
 
 using namespace std;
 
-int main()
-{
-    httplib::Client cli("localhost", 1234);
+httplib::Client cli("localhost", 1234);
 
+bool validateName(string name) {
+    auto res = cli.Post("/isUnique", name, "application/x-www-form-urlencoded");
+    if (res && res->status == 200)
+    {
+        string body = res->body;
+
+        // Name is unique
+        if (body.compare("true") == 0) {
+            cout << "Hello, " << name << "!" << endl;
+            return true;
+        }
+        // Name is not unique
+        else if (body.compare("false") == 0) {
+            cout << "The name " << name << " is already in use. Please try another name." << endl;
+            return false;
+        }
+    }
+    else
+    {
+        cout << "Oh no! Server error!" << endl;
+    }
+
+    return false;
+}
+
+int main() {
     cout << "Welcome to drink++ !!!" << endl;
     cout << endl;
 
-    cout << "What is your name?" << endl;
+    // Get name
+    string isUnique = "false";
     string name;
+    cout << "What is your name?" << endl;
     cin >> name;
+    cout << endl;
+
+    // Check if name is unique
+    while (!validateName(name)) {
+        cin >> name;
+    }
     cout << endl;
 
     cout << "How many shots until you blackout?" << endl;
     int limit;
+    cin.clear();
     cin >> limit;
     while (cin.fail())
     {
-        cout << "Invalid input!" << endl;
+        cout << "Invalid input! Please try again." << endl;
         cin.clear();
         cin.ignore(256, '\n');
         cin >> limit;
@@ -30,6 +63,7 @@ int main()
             cin.setstate(ios_base::failbit);
         }
     }
+    cout << endl;
 
     // User user = new User()
 
@@ -71,7 +105,7 @@ int main()
     // Create new game
     if (input == 1)
     {
-        auto res = cli.Post("/create", "asdf", "application/x-www-form-urlencoded");
+        auto res = cli.Post("/create", name, "application/x-www-form-urlencoded");
         if (res && res->status == 200)
         {
             cout << res->body << endl;
@@ -85,5 +119,5 @@ int main()
     else if (input == 2)
     {
     }
-    cout << "out of this test area";
+    cout << "out of this test area" << endl;
 }
