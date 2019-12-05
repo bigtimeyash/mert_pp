@@ -6,7 +6,7 @@ CFLAGS = -g -Wall -std=c++17
 
 # Define targets
 
-TARGETS = server client
+TARGETS = model server client
 
 # If no arguments are passed to make, it will attempt the '' target
 default: $(TARGETS)
@@ -18,8 +18,10 @@ all: $(TARGETS)
 # $< = name of first item in dependencies list
 # $@ = complete name of the target
 
-server: networking/server.cpp
+
+server:  networking/server.cpp model/user.cpp model/game.cpp
 	$(CC) $(CFLAGS) -pthread $^ -o $@
 
-client: networking/client.cpp model/user.cpp
+client:  networking/client.cpp model/user.cpp model/game.cpp
 	$(CC) $(CFLAGS) $^ -o $@
+

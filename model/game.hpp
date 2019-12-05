@@ -14,8 +14,9 @@ protected:
 
 public:
     Game(string);
-
     void addPlayer(string);
+
+    string getName();
     bool removePlayer(string);
 };
 

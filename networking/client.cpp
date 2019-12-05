@@ -33,6 +33,23 @@ int main()
 
     // User user = new User()
 
+    // show list of games
+
+    cout << endl
+         << "Awesome! Here is a list of existing games:"
+         << endl
+         << endl;
+
+    auto res = cli.Get("/gameList");
+    if (res && res->status == 200)
+    {
+        cout << res->body << endl;
+    }
+    else
+    {
+        cout << "Oh no! An error occured while attempting to create a new game." << endl;
+    }
+
     cout << "[1] Create new game" << endl;
     cout << "[2] Join existing game" << endl;
     cout << endl;

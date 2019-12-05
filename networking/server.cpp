@@ -4,6 +4,7 @@
 
 #include "../cpp-httplib-master/httplib.h"
 #include "../model/game.hpp"
+#include "../model/user.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
@@ -73,9 +74,11 @@ int main(void)
 
     Server svr;
 
+    vector<Game> games;
+    games.push_back(Game("Matt"));
+    games.push_back(Game("Clouds"));
+
     svr.Get("/hi", [](const Request &req, Response &res) {
-        char *out = "test";
-        printf("%s", out);
         res.set_content("Hello World!", "text/plain");
     });
 
@@ -84,6 +87,16 @@ int main(void)
         char *val = (char *)malloc(1024 * sizeof(char));
         sprintf(val, "%d", num);
         res.set_content(val, "text/plain");
+    });
+
+    svr.Get("/gameList", [games](const Request &req, Response &res) {
+        string out;
+        for (Game game : games)
+        {
+            out.append(game.getName());
+            out.append("\n");
+        }
+        res.set_content(out, "text/plain");
     });
 
     svr.Post("/create", [](const Request &req, Response &res) {

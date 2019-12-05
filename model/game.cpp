@@ -12,6 +12,11 @@ void Game::addPlayer(string player)
     Game::score[player] = 0;
 }
 
+string Game::getName()
+{
+    return Game::hostName;
+}
+
 bool Game::removePlayer(string player)
 {
     if (Game::score.count(player) > 0)
