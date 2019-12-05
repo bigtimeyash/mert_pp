@@ -1,6 +1,7 @@
 #include "../cpp-httplib-master/httplib.h"
 #include "../model/user.hpp"
 #include <iostream>
+#include <locale.h>
 
 using namespace std;
 
@@ -112,8 +113,10 @@ void launchGame(int game, string name)
 
 int main()
 {
-    cout << "Welcome to drink++ !!!" << endl;
-    cout << endl;
+    setlocale(LC_ALL, "en_US.utf8");
+    cout << "Welcome to drink++ !!! \U0001F379" << endl;
+    cout
+        << endl;
 
     // Get name
     string isUnique = "false";

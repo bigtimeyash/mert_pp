@@ -44,7 +44,11 @@ bool Game::incrementScore(string player)
     }
     else
     {
+        User p = users[player];
         users.erase(player);
+        User new2;
+        new2.updateScore(-1000);
+        users["\U0001F635 " + p.getName() + " has left the chat..."] = new2;
         return false;
     }
 }
