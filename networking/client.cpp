@@ -131,7 +131,7 @@ int main()
     auto res = cli.Post("/createUser", "name=" + name + "&limit=" + to_string(limit), "application/x-www-form-urlencoded");
     if (res && res->status == 200)
     {
-        cout << res->body << endl;
+        //cout << res->body << endl;
     }
     else
     {
@@ -174,12 +174,16 @@ int main()
     // Create new game
     if (input == 1)
     {
-        cout << "Creating new game...." << endl
-             << endl;
-        res = cli.Post("/create", name, "application/x-www-form-urlencoded");
+        res = cli.Post("/createGame", name, "application/x-www-form-urlencoded");
         if (res && res->status == 200)
         {
-            cout << res->body << endl;
+            cout << "Succesfully created game!" << endl;
+            cout << "===============================================" << endl;
+            cout << "Instructions:\nquit - log out\nrefresh - get updated scores\n++ - increase your drink count" << endl;
+            cout << "===============================================" << endl;
+            cout << endl;
+            int gameInd = stoi(res->body);
+            launchGame(gameInd, name);
         }
         else
         {

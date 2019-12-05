@@ -132,7 +132,11 @@ int main(void)
         auto &x = *it;
         name = x.first;
 
-        res.set_content("success", "text/plain");
+        Game g = Game(name);
+        g.addPlayer(name);
+        games.push_back(g);
+
+        res.set_content(std::to_string(games.size() - 1), "text/plain");
     });
 
     svr.Post("/isUnique", [](const Request &req, Response &res) {
