@@ -6,19 +6,22 @@ using namespace std;
 
 httplib::Client cli("localhost", 1234);
 
-bool validateName(string name) {
+bool validateName(string name)
+{
     auto res = cli.Post("/isUnique", name, "application/x-www-form-urlencoded");
     if (res && res->status == 200)
     {
         string body = res->body;
 
         // Name is unique
-        if (body.compare("true") == 0) {
+        if (body.compare("true") == 0)
+        {
             cout << "Hello, " << name << "!" << endl;
             return true;
         }
         // Name is not unique
-        else if (body.compare("false") == 0) {
+        else if (body.compare("false") == 0)
+        {
             cout << "The name " << name << " is already in use. Please try another name." << endl;
             return false;
         }
@@ -31,7 +34,8 @@ bool validateName(string name) {
     return false;
 }
 
-int main() {
+int main()
+{
     cout << "Welcome to drink++ !!!" << endl;
     cout << endl;
 
@@ -43,7 +47,8 @@ int main() {
     cout << endl;
 
     // Check if name is unique
-    while (!validateName(name)) {
+    while (!validateName(name))
+    {
         cin >> name;
     }
     cout << endl;
@@ -65,7 +70,31 @@ int main() {
     }
     cout << endl;
 
-    // User user = new User()
+    //create user on the server
+    auto res = cli.Post("/createUser", "name=" + name + "&limit=" + to_string(limit), "application/x-www-form-urlencoded");
+    if (res && res->status == 200)
+    {
+        cout << res->body << endl;
+    }
+    else
+    {
+        cout << "Oh no! An error occured while attempting to create a new user." << endl;
+    }
+
+    cout << endl
+         << "Awesome! Here is a list of existing users:"
+         << endl
+         << endl;
+
+    res = cli.Get("/userList");
+    if (res && res->status == 200)
+    {
+        cout << res->body << endl;
+    }
+    else
+    {
+        cout << "Oh no! An error occured while attempting to create a new game." << endl;
+    }
 
     // show list of games
 
@@ -74,7 +103,7 @@ int main() {
          << endl
          << endl;
 
-    auto res = cli.Get("/gameList");
+    res = cli.Get("/gameList");
     if (res && res->status == 200)
     {
         cout << res->body << endl;
@@ -105,7 +134,9 @@ int main() {
     // Create new game
     if (input == 1)
     {
-        auto res = cli.Post("/create", name, "application/x-www-form-urlencoded");
+        cout << "Creating new game...." << endl
+             << endl;
+        res = cli.Post("/create", name, "application/x-www-form-urlencoded");
         if (res && res->status == 200)
         {
             cout << res->body << endl;
