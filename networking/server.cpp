@@ -73,6 +73,22 @@ int main(void)
 
         res.set_content("|" + name + "|" + limit + "|", "text/plain");
     });
+
+    svr.Post("/joinGame", [](const Request &req, Response &res) {
+        // Retrieve name
+        std::string name;
+        int gameInd;
+
+        auto it = req.params.begin();
+
+        gameInd = std::stoi(it->second);
+        it++;
+        name = it->second;
+
+        games[gameInd].addPlayer(name);
+
+        res.set_content("|" + name + "|" + std::to_string(gameInd) + "|", "text/plain");
+    });
     svr.Post("/createGame", [](const Request &req, Response &res) {
         // Retrieve name
         std::string name;

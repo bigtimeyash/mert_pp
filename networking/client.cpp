@@ -33,7 +33,24 @@ bool validateName(string name)
 
     return false;
 }
-
+int getInt(int lbound = 0, int ubound = 255)
+{
+    int limit;
+    cin.clear();
+    cin >> limit;
+    while (cin.fail())
+    {
+        cout << "Invalid input! Please try again." << endl;
+        cin.clear();
+        cin.ignore(256, '\n');
+        cin >> limit;
+        if (limit < lbound || limit > ubound)
+        {
+            cin.setstate(ios_base::failbit);
+        }
+    }
+    return limit;
+}
 int main()
 {
     cout << "Welcome to drink++ !!!" << endl;
@@ -96,23 +113,6 @@ int main()
         cout << "Oh no! An error occured while attempting to create a new game." << endl;
     }
 
-    // show list of games
-
-    cout << endl
-         << "Awesome! Here is a list of existing games:"
-         << endl
-         << endl;
-
-    res = cli.Get("/gameList");
-    if (res && res->status == 200)
-    {
-        cout << res->body << endl;
-    }
-    else
-    {
-        cout << "Oh no! An error occured while attempting to create a new game." << endl;
-    }
-
     cout << "[1] Create new game" << endl;
     cout << "[2] Join existing game" << endl;
     cout << endl;
@@ -149,6 +149,35 @@ int main()
     // Join existing game
     else if (input == 2)
     {
+        // show list of games
+        cout << endl
+             << "Awesome! Here is a list of existing games:"
+             << endl
+             << endl;
+
+        res = cli.Get("/gameList");
+        if (res && res->status == 200)
+        {
+            cout << res->body << endl;
+        }
+        else
+        {
+            cout << "Oh no! An error occured while attempting to get gamelist." << endl;
+        }
+        cout << "Type the index of the game you want to enter: ";
+        int gameInd = getInt();
+
+        // join game on the server
+        auto res = cli.Post("/joinGame", "name=" + name + "&gameInd=" + to_string(gameInd), "application/x-www-form-urlencoded");
+        if (res && res->status == 200)
+        {
+            cout << res->body << endl;
+        }
+        else
+        {
+            cout << "Oh no! An error occured while attempting to create a new user." << endl;
+        }
     }
-    cout << "out of this test area" << endl;
+
+    cout << "Failed Successfully" << endl;
 }
