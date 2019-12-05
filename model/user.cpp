@@ -1,19 +1,25 @@
 #include "user.hpp"
 
-User::User(string name, int scoreLimit) : name {name}, score {0}, scoreLimit {scoreLimit} {}
+using namespace std;
 
-void User::updateScore(int newScore) {
+User::User(string name, int scoreLimit) : name{name}, score{0}, scoreLimit{scoreLimit} {}
+
+void User::updateScore(int newScore)
+{
     score = newScore;
 }
 
-string User::getName() {
+string User::getName()
+{
     return name;
 }
 
-int User::getScore() {
+int User::getScore()
+{
     return score;
 }
 
-int User::getScoreLimit() {
+int User::getScoreLimit()
+{
     return scoreLimit;
 }

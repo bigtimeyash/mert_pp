@@ -1,7 +1,6 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-using namespace std;
 #include <vector>
 #include <map>
 #include <iostream>
@@ -9,15 +8,15 @@ using namespace std;
 class Game
 {
 protected:
-    string hostName;
-    map<string, int> score;
+    std::string hostName;
+    std::map<std::string, int> score;
 
 public:
-    Game(string);
-    void addPlayer(string);
+    Game(std::string);
+    void addPlayer(std::string);
 
-    string getName();
-    bool removePlayer(string);
+    std::string getName();
+    bool removePlayer(std::string);
 };
 
 #endif

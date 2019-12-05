@@ -11,7 +11,8 @@
 #include <vector>
 
 static int num = 0;
-static vector<string> names;
+static std::vector<Game> games;
+static std::vector<std::string> names;
 
 std::string dump_headers(const httplib::Headers &headers)
 {
@@ -76,9 +77,9 @@ int main(void)
 
     Server svr;
 
-    vector<Game> games;
-    games.push_back(Game("Matt"));
-    games.push_back(Game("Clouds"));
+    games.push_back(Game("Default1"));
+    games.push_back(Game("Default2"));
+    names.push_back("defaultName1");
 
     svr.Get("/hi", [](const Request &req, Response &res) {
         res.set_content("Hello World!", "text/plain");
@@ -91,8 +92,8 @@ int main(void)
         res.set_content(val, "text/plain");
     });
 
-    svr.Get("/gameList", [games](const Request &req, Response &res) {
-        string out;
+    svr.Get("/gameList", [](const Request &req, Response &res) {
+        std::string out;
         for (Game game : games)
         {
             out.append(game.getName());
@@ -103,27 +104,28 @@ int main(void)
 
     svr.Post("/create", [](const Request &req, Response &res) {
         // Retrieve name
-        string name;
+        std::string name;
         auto it = req.params.begin();
         auto &x = *it;
         name = x.first;
 
         // Add name to vector of names
         names.push_back(name);
-        
+
         res.set_content(name, "text/plain");
     });
 
     svr.Post("/isUnique", [](const Request &req, Response &res) {
         // Retrieve name
-        string name;
+        std::string name;
         auto it = req.params.begin();
         auto &x = *it;
         name = x.first;
 
         // See if names vector contains name
-        string result = "true";
-        if (find(names.begin(), names.end(), name) != names.end()) {
+        std::string result = "true";
+        if (find(names.begin(), names.end(), name) != names.end())
+        {
             result = "false";
         }
 

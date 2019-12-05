@@ -1,23 +1,22 @@
 #ifndef USER_HPP
 #define USER_HPP
 
-using namespace std;
-
 #include <vector>
 #include <iostream>
 
-class User {
-    protected:
-        string name;
-        int score;
-        int scoreLimit;
+class User
+{
+protected:
+    std::string name;
+    int score;
+    int scoreLimit;
 
-    public:
-        User(string name, int scoreLimit);
-        void updateScore(int newScore);
-        string getName();
-        int getScore();
-        int getScoreLimit();
+public:
+    User(std::string name, int scoreLimit);
+    void updateScore(int newScore);
+    std::string getName();
+    int getScore();
+    int getScoreLimit();
 };
 
 #endif

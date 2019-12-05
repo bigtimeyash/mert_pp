@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include <iostream>
+
 using namespace std;
 
 Game::Game(string hostName) : hostName{hostName}
@@ -22,6 +23,7 @@ bool Game::removePlayer(string player)
     if (Game::score.count(player) > 0)
     {
         Game::score.erase(player);
+        return true;
     }
     else
     {
